@@ -205,8 +205,6 @@ header("Location: myorders.php");
         `;
 
         document.getElementById('order-summary').appendChild(productForm);
-
-        // Update the total price immediately when the product is added
         total += parseFloat(productPrice);
         document.getElementById('total-price').innerText = total.toFixed(2);
     }
@@ -215,7 +213,7 @@ header("Location: myorders.php");
         const productForm = document.getElementById('product-' + productId);
         const quantity = productForm.querySelector('input').value;
 
-        // Subtract the total price of the removed product
+        
         total -= parseFloat(productPrice) * parseFloat(quantity);
         document.getElementById('total-price').innerText = total.toFixed(2);
 
@@ -224,12 +222,17 @@ header("Location: myorders.php");
 
     function updateTotal(productPrice, newQuantity, productId) {
         const productForm = document.getElementById('product-' + productId);
-        const oldQuantity = productForm.querySelector('input').value;
-        const quantityDifference = newQuantity - oldQuantity;
+        const oldQuantity = productForm.querySelector('input').getAttribute('value');
 
-        // Update the total price based on the quantity change
-        total += parseFloat(productPrice) * quantityDifference;
+        
+        const difference = parseFloat(newQuantity) - parseFloat(oldQuantity);
+
+       
+        total += parseFloat(productPrice) * difference;
         document.getElementById('total-price').innerText = total.toFixed(2);
+
+        
+        productForm.querySelector('input').setAttribute('value', newQuantity);
     }
 </script>
 </body>
